@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>KeyCat Stealer | The Ultimate Tool</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Modern Tech Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* --- DARK THEME CONFIGURATION --- */
+            --primary: #00ff41; /* Hacker Green */
+            --primary-dim: #003b0f;
+            --primary-glow: rgba(0, 255, 65, 0.4);
+            --bg-dark: #000000;      /* Pitch Black */
+            --bg-card: #050505;     /* Almost Black */
+            --text-main: #ffffff;
+            --text-muted: #666666;
+            --border-color: #1a1a1a;
+            --font-display: 'Rajdhani', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        /* --- Smooth Scroll --- */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            outline: none;
+            cursor: none; /* Hide default cursor */
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: var(--font-display);
+            overflow-x: hidden;
+            line-height: 1.5;
+        }
+
+        /* --- Custom Cursor --- */
+        .cursor-dot,
+        .cursor-outline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--primary);
+        }
+
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--primary);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+
+        /* Hover state for cursor */
+        body.hovering .cursor-outline {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(0, 255, 65, 0.1);
+            border-color: transparent;
+        }
+
+        /* --- Walking Cat Animation --- */
+        .cat-container {
+            position: fixed;
+            bottom: 20px;
+            left: -100px; /* Start off screen */
+            z-index: 10;
+            pointer-events: none; /* Let clicks pass through */
+            animation: walkAcross 20s linear infinite;
+            filter: drop-shadow(0 0 5px var(--primary));
+        }
+
+        .cat-svg {
+            width: 60px;
+            height: auto;
+            fill: none;
+            stroke: var(--primary);
+            stroke-width: 2;
+            animation: bob 0.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes walkAcross {
+            0% { left: -100px; transform: scaleX(1); }
+            100% { left: 100%; transform: scaleX(1); }
+        }
+
+        @keyframes bob {
+            from { transform: translateY(0); }
+            to { transform: translateY(-3px); }
+        }
+
+        /* Hide cursor on mobile (touch) */
+        @media (hover: none) and (pointer: coarse) {
+            .cursor-dot, .cursor-outline, .cat-container { display: none; }
+            * { cursor: auto; }
+        }
+
+        /* --- Custom Scrollbar --- */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #000;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #111;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary);
+        }
+
+        /* --- Canvas Background --- */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        /* --- Header --- */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo {
+            font-family: var(--font-mono);
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: -1px;
+            text-transform: uppercase;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 14px;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--text-main);
+            text-shadow: 0 0 8px rgba(255,255,255,0.5);
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 100px 20px 40px;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: clamp(3.5rem, 9vw, 7rem);
+            font-weight: 700;
+            line-height: 0.9;
+            margin-bottom: 25px;
+            color: var(--text-main);
+            text-transform: uppercase;
+            letter-spacing: -2px;
+        }
+
+        .hero h1 span {
+            color: var(--primary);
+            text-shadow: 0 0 20px var(--primary-glow);
+        }
+
+        .hero p {
+            font-family: var(--font-mono);
+            font-size: 1rem;
+            color: var(--text-muted);
+            max-width: 500px;
+            margin-bottom: 45px;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            padding: 10px 0;
+        }
+
+        .cta-group {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 15px 35px;
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 13px;
+            letter-spacing: 1.5px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: rgba(0, 255, 65, 0.02);
+            box-shadow: 0 0 20px var(--primary-glow);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: #000;
+            border: 1px solid var(--primary);
+            font-weight: 800;
+        }
+
+        .btn-primary:hover {
+            background: #fff;
+            color: #000;
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+            border-color: #fff;
+        }
+
+        /* --- Sections --- */
+        section {
+            padding: 80px 20px;
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .section-header span {
+            color: var(--primary);
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            display: block;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        /* --- Features Grid --- */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .feature-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 30px;
+            transition: 0.3s;
+        }
+
+        .feature-item:hover {
+            border-color: #333;
+            transform: translateY(-5px);
+        }
+
+        .feature-item h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+        
+        .feature-item p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+        }
+
+        /* --- Pricing Cards --- */
+        .plans {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 10px 40px -10px rgba(0,0,0,0.8);
+        }
+
+        .card.popular {
+            border: 1px solid var(--primary);
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            transform: scale(1.02);
+        }
+
+        .badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: #000;
+            padding: 4px 12px;
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .price {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 20px 0;
+            font-family: var(--font-mono);
+        }
+
+        .card ul {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 30px;
+            flex-grow: 1;
+        }
+
+        .card ul li {
+            margin: 12px 0;
+            color: #888;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: var(--font-mono);
+        }
+
+        .card ul li::before {
+            content: '>';
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        /* --- Gallery --- */
+        .proofs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .proof-item {
+            background: #0a0a0a;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 10px;
+            transition: 0.3s;
+        }
+
+        .proof-item:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .proof-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 4px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+
+        /* --- Footer --- */
+        footer {
+            border-top: 1px solid var(--border-color);
+            padding: 50px 20px;
+            text-align: center;
+            background: #000;
+            color: #333;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            margin-top: 50px;
+        }
+
+        /* --- Toast Notification --- */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #0a0a0a;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            padding: 15px 25px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.8);
+            z-index: 9999;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            nav { display: none; }
+            .hero h1 { font-size: 3rem; }
+            .card.popular { transform: none; }
+            .proofs { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Custom Cursor Elements -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <!-- Walking Cat (SVG) -->
+    <div class="cat-container">
+        <!-- Simple Cat Outline SVG -->
+        <svg class="cat-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20,70 Q30,90 50,90 Q70,90 80,70 L90,30 L80,40 L70,10 L60,30 L40,30 L30,10 L20,40 L10,30 Z" />
+            <path d="M75,50 Q85,40 80,35" stroke-linecap="round"/> <!-- Tail -->
+            <circle cx="35" cy="50" r="2" fill="#00ff41" stroke="none"/> <!-- Eye -->
+            <circle cx="65" cy="50" r="2" fill="#00ff41" stroke="none"/> <!-- Eye -->
+        </svg>
+    </div>
+
+    <!-- Dark Background Animation -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Toast Element -->
+    <div id="toast" class="toast">Action Completed</div>
+
+    <header>
+        <div class="logo">KeyCat_Stealer</div>
+        <nav>
+            <ul>
+                <li><a href="#pricing">Licenses</a></li>
+                <li><a href="#proofs">Proofs</a></li>
+                <li><a href="#" onclick="showToast('Opening Support Channel...')">Support</a></li>
+            </ul>
+        </nav>
+        <a href="https://t.me/BittenSupport_Bot" target="_blank" class="btn btn-primary" style="padding: 10px 20px; font-size:11px;">Telegram</a>
+    </header>
+
+    <!-- Hero -->
+    <div class="hero">
+        <h1>KeyCat <span>Stealer</span></h1>
+        <p>Advanced Digital Access Tool // Premium Logs // Undetected</p>
+        <div class="cta-group">
+            <a href="#pricing" class="btn btn-primary">Get Access</a>
+            <a href="#proofs" class="btn">View Proofs</a>
+        </div>
+    </div>
+
+    <!-- Features -->
+    <section id="features">
+        <div class="section-header">
+            <span>SYSTEM_CAPABILITIES</span>
+            <h2>Why Choose Us</h2>
+        </div>
+        <div class="features-grid">
+            <div class="feature-item">
+                <h3>Undetected</h3>
+                <p>Fully obfuscated and FUD (Fully Undetectable) runtime execution.</p>
+            </div>
+            <div class="feature-item">
+                <h3>Fast Logs</h3>
+                <p>Real-time data transmission with our high-speed C2 servers.</p>
+            </div>
+            <div class="feature-item">
+                <h3>Auto-Build</h3>
+                <p>One-click builder with custom icon and assembly spoofing.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing">
+        <div class="section-header">
+            <span>PURCHASE_LICENSE</span>
+            <h2>Access Plans</h2>
+        </div>
+        <div class="plans">
+            <div class="card">
+                <h3>Basic</h3>
+                <div class="price">$50</div>
+                <ul>
+                    <li>30 Days Duration</li>
+                    <li>Standard Builder</li>
+                    <li>Discord Support</li>
+                    <li>1 HWID Lock</li>
+                </ul>
+                <button class="btn" onclick="buy('Basic')">Purchase</button>
+            </div>
+
+            <div class="card popular">
+                <div class="badge">Best Value</div>
+                <h3>Pro ⭐</h3>
+                <div class="price">$200</div>
+                <ul>
+                    <li>1 Year Duration</li>
+                    <li>Advanced Builder + Spoofing</li>
+                    <li>Private Support</li>
+                    <li>3 HWID Locks</li>
+                    <li>Free Updates</li>
+                </ul>
+                <button class="btn btn-primary" onclick="buy('Pro')">Purchase</button>
+            </div>
+
+            <div class="card">
+                <h3>Lifetime</h3>
+                <div class="price">$500</div>
+                <ul>
+                    <li>Forever Access</li>
+                    <li>Source Code Access</li>
+                    <li>Reseller Rights</li>
+                    <li>Unlimited HWID</li>
+                    <li>VIP Support</li>
+                </ul>
+                <button class="btn" onclick="buy('Lifetime')">Purchase</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Proofs Section -->
+    <section id="proofs">
+        <div class="section-header">
+            <span>EVIDENCE</span>
+            <h2>Live Proofs</h2>
+        </div>
+        <div class="proofs">
+            <!-- Image 1 -->
+            <div class="proof-item">
+                <img src="https://k.top4top.io/p_3687r2znl1.png" alt="Proof 1">
+            </div>
+            
+            <!-- Image 2 -->
+            <div class="proof-item">
+                <img src="https://l.top4top.io/p_3687dkgi52.png" alt="Proof 2">
+            </div>
+            
+            <!-- Image 3 -->
+            <div class="proof-item">
+                <img src="https://a.top4top.io/p_36871r96k3.png" alt="Proof 3">
+            </div>
+            
+            <!-- Image 4 -->
+            <div class="proof-item">
+                <img src="https://b.top4top.io/p_3687sk9z74.png" alt="Proof 4">
+            </div>
+            
+            <!-- Image 5 -->
+            <div class="proof-item">
+                <img src="https://c.top4top.io/p_3687bv0rb5.png" alt="Proof 5">
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        &copy; 2026 KeyCat Stealer. All rights reserved. <br>
+        <span style="opacity: 0.3;">For educational purposes only.</span>
+    </footer>
+
+    <script>
+        // --- Custom Cursor Logic ---
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorOutline = document.querySelector('.cursor-outline');
+
+        window.addEventListener('mousemove', (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+
+            // Dot follows instantly
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+
+            // Outline follows with slight delay (animation in CSS keyframes usually handles this, but here we use direct positioning for JS control if needed, CSS transition is smoother)
+            cursorOutline.style.left = `${posX}px`;
+            cursorOutline.style.top = `${posY}px`;
+        });
+
+        // Hover effect for interactive elements
+        const clickables = document.querySelectorAll('a, button, .proof-item, .card');
+        clickables.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                document.body.classList.add('hovering');
+            });
+            el.addEventListener('mouseleave', () => {
+                document.body.classList.remove('hovering');
+            });
+        });
+
+        // --- Canvas Animation (Stealthy) ---
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        let w, h;
+        let dots = [];
+
+        function resize() {
+            w = canvas.width = window.innerWidth;
+            h = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Dot {
+            constructor() {
+                this.x = Math.random() * w;
+                this.y = Math.random() * h;
+                this.vx = (Math.random() - 0.5) * 0.3;
+                this.vy = (Math.random() - 0.5) * 0.3;
+                this.size = Math.random() * 1.5;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                if (this.x < 0 || this.x > w) this.vx *= -1;
+                if (this.y < 0 || this.y > h) this.vy *= -1;
+            }
+            draw() {
+                ctx.fillStyle = '#00ff41';
+                ctx.globalAlpha = 0.4;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        for (let i = 0; i < 40; i++) dots.push(new Dot());
+
+        function animate() {
+            ctx.clearRect(0, 0, w, h);
+            ctx.strokeStyle = '#00ff41';
+            for (let i = 0; i < dots.length; i++) {
+                dots[i].update();
+                dots[i].draw();
+                for (let j = i; j < dots.length; j++) {
+                    let dx = dots[i].x - dots[j].x;
+                    let dy = dots[i].y - dots[j].y;
+                    let dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 120) {
+                        ctx.lineWidth = 0.2;
+                        ctx.globalAlpha = 1 - (dist / 120);
+                        ctx.beginPath();
+                        ctx.moveTo(dots[i].x, dots[i].y);
+                        ctx.lineTo(dots[j].x, dots[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // --- Interactions ---
+        function buy(plan) {
+            showToast(`Initializing ${plan} Purchase via Telegram...`);
+            setTimeout(() => {
+                window.location.href = 'https://t.me/BittenSupport_Bot';
+            }, 1000);
+        }
+
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 3000);
+        }
+    </script>
+</body>
+
+</html>
